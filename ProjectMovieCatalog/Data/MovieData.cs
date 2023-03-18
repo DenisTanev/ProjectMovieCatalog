@@ -22,7 +22,36 @@ namespace ProjectMovieCatalog.Data
                     while (reader.Read())
                     {
                         var movie = new Movie(
-                            reader.GetInt32(0),     
+                            reader.GetInt32(0),
+                            reader.GetInt32(7),
+                            reader.GetString(1),
+                            reader.GetInt32(3),
+                            reader.GetString(2),
+                            reader.GetString(6),
+                            reader.GetString(5),
+                            reader.GetString(4)
+                            );
+                        movieList.Add(movie);
+                    }
+                }
+                connection.Close();
+            }
+            return movieList;
+        }
+
+        public List<Movie> SortByGenre()
+        {
+            var movieList = new List<Movie>();
+            using (var connection = Database.GetConnection())
+            {
+                var command = new SqlCommand("SELECT * FROM movies ORDER BY Genre ASC", connection);
+                connection.Open();
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var movie = new Movie(
+                            reader.GetInt32(0),
                             reader.GetInt32(7),
                             reader.GetString(1),
                             reader.GetInt32(3),
@@ -51,7 +80,35 @@ namespace ProjectMovieCatalog.Data
                 {
                     if (reader.Read())
                     {
-                         movie = new Movie(
+                        movie = new Movie(
+                           reader.GetInt32(0),
+                           reader.GetInt32(7),
+                           reader.GetString(1),
+                           reader.GetInt32(3),
+                           reader.GetString(2),
+                           reader.GetString(6),
+                           reader.GetString(5),
+                           reader.GetString(4)
+                           );
+                    }
+                }
+                connection.Close();
+            }
+            return movie;
+        }
+        public List<Movie> GetMoviesWithMostWatchedMonth(string monthWithMostViews)
+        {
+            var movieList = new List<Movie>();
+            using (var connection = Database.GetConnection())
+            {
+                var command = new SqlCommand("SELECT * FROM movies WHERE MonthWithMostViews=@monthWithMostViews", connection);
+                command.Parameters.AddWithValue("monthWithMostViews", monthWithMostViews);
+                connection.Open();
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        var movie = new Movie(
                             reader.GetInt32(0),
                             reader.GetInt32(7),
                             reader.GetString(1),
@@ -61,11 +118,12 @@ namespace ProjectMovieCatalog.Data
                             reader.GetString(5),
                             reader.GetString(4)
                             );
+                        movieList.Add(movie);
                     }
                 }
                 connection.Close();
             }
-            return movie;
+            return movieList;
         }
 
         public void Add(Movie movie)

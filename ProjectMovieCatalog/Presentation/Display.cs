@@ -2,6 +2,7 @@
 using ProjectMovieCatalog.Common;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,9 @@ namespace ProjectMovieCatalog.Presentation
             Console.WriteLine("3.Update movie by ID");
             Console.WriteLine("4.Fetch movie by ID");
             Console.WriteLine("5.Delete movie by ID");
-            Console.WriteLine("6.Exit");
+            Console.WriteLine("6.Sort movies by genre");
+            Console.WriteLine("7.Get all the most watched movies for a specific month");
+            Console.WriteLine("8.Exit");
         }
         public Display()
         {
@@ -30,7 +33,7 @@ namespace ProjectMovieCatalog.Presentation
         private void Input()
         {
             var operation = -1;
-            var closeOperationId = 6;
+            var closeOperationId = 8;
             do
             {
                 ShowMenu();
@@ -52,6 +55,12 @@ namespace ProjectMovieCatalog.Presentation
                     case 5:
                         Delete();
                         break;
+                    case 6:
+                        SortByGenre();
+                        break;
+                    case 7:
+                        GetMostWatchedMoviesInAMonth();
+                        break;
                     default:
                         break;
                 }
@@ -64,6 +73,8 @@ namespace ProjectMovieCatalog.Presentation
             movie.Title = Console.ReadLine();
             Console.WriteLine("Enter genre");
             movie.Genre = Console.ReadLine();
+            Console.WriteLine("Enter the year of the movie");
+            movie.Year = int.Parse(Console.ReadLine());
             Console.WriteLine("Enter the name of the producer");
             movie.Producer = Console.ReadLine();
             Console.WriteLine("Enter the name of the director");
@@ -81,7 +92,24 @@ namespace ProjectMovieCatalog.Presentation
             movieBusiness.Delete(id);
             Console.WriteLine("Done");
         }
-
+        private void GetMostWatchedMoviesInAMonth()
+        {
+            Console.WriteLine("Enter month:");
+            string month = Console.ReadLine();
+            var movies = movieBusiness.GetMoviesWithMostWatchedMonth(month);
+            foreach (var item in movies)
+            {
+                Console.WriteLine($"{item.Id} {item.Title} {item.Year} {item.Genre} {item.Views} {item.MonthWithMostViews} {item.Producer} {item.Director}");
+            }
+        }
+        private void SortByGenre()
+        {
+            var movies = movieBusiness.SortByGenre();
+            foreach (var item in movies)
+            {
+                Console.WriteLine($"{item.Id} {item.Title} {item.Year} {item.Genre} {item.Views} {item.MonthWithMostViews} {item.Producer} {item.Director}");
+            }
+        }
         private void Update()
         {
             Console.WriteLine("Enter ID to update:");
@@ -93,6 +121,8 @@ namespace ProjectMovieCatalog.Presentation
                 movie.Title = Console.ReadLine();
                 Console.WriteLine("Enter genre");
                 movie.Genre = Console.ReadLine();
+                Console.WriteLine("Enter the year of the movie");
+                movie.Year = int.Parse(Console.ReadLine());
                 Console.WriteLine("Enter the name of the producer");
                 movie.Producer = Console.ReadLine();
                 Console.WriteLine("Enter the name of the director");
@@ -117,6 +147,7 @@ namespace ProjectMovieCatalog.Presentation
                 Console.WriteLine(new string('-', 40));
                 Console.WriteLine("ID: " + movie.Id);
                 Console.WriteLine("Title: " + movie.Title);
+                Console.WriteLine("Year: " + movie.Year);
                 Console.WriteLine("Genre: " + movie.Genre);
                 Console.WriteLine("Views: " + movie.Views);
                 Console.WriteLine("Month with most views: " + movie.MonthWithMostViews);
@@ -137,7 +168,7 @@ namespace ProjectMovieCatalog.Presentation
             var movies = movieBusiness.GetAll();
             foreach (var item in movies)
             {
-                Console.WriteLine($"{item.Id} {item.Title} {item.Genre} {item.Views} {item.MonthWithMostViews} {item.Producer} {item.Director}");
+                Console.WriteLine($"{item.Id} {item.Title} {item.Year} {item.Genre} {item.Views} {item.MonthWithMostViews} {item.Producer} {item.Director}");
             }
         }
     }

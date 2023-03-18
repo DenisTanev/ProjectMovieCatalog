@@ -16,6 +16,14 @@ namespace ProjectMovieCatalog.Business
         {
             return manager.GetAll();
         }
+        public List<Movie> SortByGenre()
+        {
+            return manager.SortByGenre();
+        }
+        public List<Movie> GetMoviesWithMostWatchedMonth(string monthWithMostViews)
+        {
+            return manager.GetMoviesWithMostWatchedMonth(monthWithMostViews);
+        }
         public Movie GetById(int id)
         {
             return manager.GetById(id);
