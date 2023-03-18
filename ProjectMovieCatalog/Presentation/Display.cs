@@ -10,16 +10,16 @@ namespace ProjectMovieCatalog.Presentation
 {
     internal class Display
     {
-        private ProductBusiness productBusiness = new ProductBusiness();
+        private MovieBusiness movieBusiness = new MovieBusiness();
         private void ShowMenu()
         {
             Console.WriteLine(new String('-', 40));
             Console.WriteLine(new String(' ', 18) + "MENU" + new string(' ', 18));
-            Console.WriteLine("1.List all entries");
-            Console.WriteLine("2.Add new entry");
-            Console.WriteLine("3.Update new entry");
-            Console.WriteLine("4.Fetch entry by ID");
-            Console.WriteLine("5.Delete entry by ID");
+            Console.WriteLine("1.List all movies");
+            Console.WriteLine("2.Add new movie");
+            Console.WriteLine("3.Update movie by ID");
+            Console.WriteLine("4.Fetch movie by ID");
+            Console.WriteLine("5.Delete movie by ID");
             Console.WriteLine("6.Exit");
         }
         public Display()
@@ -47,6 +47,9 @@ namespace ProjectMovieCatalog.Presentation
                         Update();
                         break;
                     case 4:
+                        Fetch();
+                        break;
+                    case 5:
                         Delete();
                         break;
                     default:
@@ -56,28 +59,26 @@ namespace ProjectMovieCatalog.Presentation
         }
         private void Add()
         {
-            Product product = new Product();
+            Movie movie = new Movie();
             Console.WriteLine("Enter title");
-            product.Title = Console.ReadLine();
-            Console.WriteLine("Enter price");
-            product.Genre = Console.ReadLine();
+            movie.Title = Console.ReadLine();
+            Console.WriteLine("Enter genre");
+            movie.Genre = Console.ReadLine();
             Console.WriteLine("Enter the name of the producer");
-            product.Producer = Console.ReadLine();
+            movie.Producer = Console.ReadLine();
             Console.WriteLine("Enter the name of the director");
-            product.Director = Console.ReadLine();
-            Console.WriteLine("Enter the name of the main actor");
-            product.MainActor = Console.ReadLine();
+            movie.Director = Console.ReadLine();
             Console.WriteLine("Enter the amount of views");
-            product.Views = int.Parse(Console.ReadLine());
-            Console.WriteLine("Enter the name of the month with most views");
-            product.MostViewsInOneMonth = Console.ReadLine();
-            productBusiness.Add(product);
+            movie.Views = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter the month in which the movie was viewed the most");
+            movie.MonthWithMostViews = Console.ReadLine();
+            movieBusiness.Add(movie);
         }
         private void Delete()
         {
             Console.WriteLine("Enter ID to delete:");
             int id = int.Parse(Console.ReadLine());
-            productBusiness.Delete(id);
+            movieBusiness.Delete(id);
             Console.WriteLine("Done");
         }
 
@@ -85,38 +86,58 @@ namespace ProjectMovieCatalog.Presentation
         {
             Console.WriteLine("Enter ID to update:");
             int id = int.Parse(Console.ReadLine());
-            Product product = productBusiness.Get(id);
-            if (product != null)
+            Movie movie = movieBusiness.GetById(id);
+            if (movie != null)
             {
                 Console.WriteLine("Enter title");
-                product.Title = Console.ReadLine();
-                Console.WriteLine("Enter price");
-                product.Genre = Console.ReadLine();
+                movie.Title = Console.ReadLine();
+                Console.WriteLine("Enter genre");
+                movie.Genre = Console.ReadLine();
                 Console.WriteLine("Enter the name of the producer");
-                product.Producer = Console.ReadLine();
+                movie.Producer = Console.ReadLine();
                 Console.WriteLine("Enter the name of the director");
-                product.Director = Console.ReadLine();
-                Console.WriteLine("Enter the name of the main actor");
-                product.MainActor = Console.ReadLine();
+                movie.Director = Console.ReadLine();
                 Console.WriteLine("Enter the amount of views");
-                product.Views = int.Parse(Console.ReadLine());
-                Console.WriteLine("Enter the name of the month with most views");
-                product.MostViewsInOneMonth = Console.ReadLine();
+                movie.Views = int.Parse(Console.ReadLine());
+                Console.WriteLine("Enter the month in which the movie was viewed the most");
+                movie.MonthWithMostViews = Console.ReadLine();
             }
             else
             {
-                Console.WriteLine("Product not found!");
+                Console.WriteLine("Movie not found!");
+            }
+        }
+        private void Fetch()
+        {
+            Console.WriteLine("Enter ID to fetch: ");
+            int id = int.Parse(Console.ReadLine());
+            Movie movie = movieBusiness.GetById(id);
+            if (movie != null)
+            {
+                Console.WriteLine(new string('-', 40));
+                Console.WriteLine("ID: " + movie.Id);
+                Console.WriteLine("Title: " + movie.Title);
+                Console.WriteLine("Genre: " + movie.Genre);
+                Console.WriteLine("Views: " + movie.Views);
+                Console.WriteLine("Month with most views: " + movie.MonthWithMostViews);
+                Console.WriteLine("Director: " + movie.Director);
+                Console.WriteLine("Producer: " + movie.Producer);
+                Console.WriteLine(new string('-', 40));
+            }
+            else
+            {
+                Console.WriteLine("Movie not found!");
             }
         }
 
         private void ListAll()
         {
             Console.WriteLine(new String('-', 40));
-            Console.WriteLine(new String(' ', 18) + "Products" + new string(' ', 18));
-            var products = productBusiness.GetAll();
-            foreach (var item in products)
+            Console.WriteLine(new String(' ', 18) + "Movies" + new string(' ', 18));
+            var movies = movieBusiness.GetAll();
+            foreach (var item in movies)
             {
-                Console.WriteLine($"{item.Id} {item.Title} {item.} {item.Stock}");
+                Console.WriteLine($"{item.Id} {item.Title} {item.Genre} {item.Views} {item.MonthWithMostViews} {item.Producer} {item.Director}");
             }
         }
     }

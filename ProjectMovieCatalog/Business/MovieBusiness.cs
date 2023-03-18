@@ -8,23 +8,23 @@ using System.Threading.Tasks;
 
 namespace ProjectMovieCatalog.Business
 {
-    internal class ProductBusiness
+    internal class MovieBusiness
     {
-        private ProductData manager = new ProductData();
+        private MovieData manager = new MovieData();
 
-        public List<Product> GetAll()
+        public List<Movie> GetAll()
         {
             return manager.GetAll();
         }
-        public Product Get(int id)
+        public Movie GetById(int id)
         {
-            return manager.Get(id);
+            return manager.GetById(id);
         }
-        public void Add(Product product)
+        public void Add(Movie product)
         {
             manager.Add(product);
         }
-        public void Update(Product product)
+        public void Update(Movie product)
         {
             manager.Update(product);
         }

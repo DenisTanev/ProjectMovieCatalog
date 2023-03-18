@@ -6,34 +6,32 @@ using System.Threading.Tasks;
 
 namespace ProjectMovieCatalog.Common
 {
-    public class Product
+    public class Movie
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public int Year { get; set; }
         public string Genre { get; set; }
-        public string Description { get; set; }
         public string Producer { get; set; }
         public string Director { get; set; }
         public int Views { get; set; }
-        public string MainActor { get; set; }
-        public string MostViewsInOneMonth { get; set; }
+        public string MonthWithMostViews { get; set; }
 
-        public Product()
+        public Movie()
         {
 
         }
 
-        public Product(int id, string title, int views, string genre, string description, string producer, string director, string mainActor, string mostViewsInOneMonth)
+        public Movie(int id, int year, string title, int views, string genre, string producer, string director, string monthWithMostViews)
         {
             this.Id = id;
             this.Title = title;
-            this.Views = views;
             this.Genre = genre;
-            this.Description = description;
-            this.Producer = producer;
+            this.Views = views;
+            this.MonthWithMostViews = monthWithMostViews;
             this.Director = director;
-            this.MainActor = mainActor;
-            this.MostViewsInOneMonth = mostViewsInOneMonth;
+            this.Producer = producer;
+            this.Year = year;
         }
     }
 }
