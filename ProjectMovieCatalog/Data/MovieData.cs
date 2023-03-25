@@ -106,7 +106,7 @@ namespace ProjectMovieCatalog.Data
                 connection.Open();
                 using (var reader = command.ExecuteReader())
                 {
-                    if (reader.Read())
+                    while (reader.Read())
                     {
                         var movie = new Movie(
                             reader.GetInt32(0),
@@ -147,7 +147,7 @@ namespace ProjectMovieCatalog.Data
         {
             using (var connection = Database.GetConnection())
             {
-                var command = new SqlCommand("UPDATE product SET Title = @title, Genre = @genre, Year = @year, Views = @views, MonthWithMostViews = @monthwithmostviews, Director = @director, Producer = @producer WHERE Id = @id", connection);
+                var command = new SqlCommand("UPDATE movies SET Title = @title, Genre = @genre, Year = @year, Views = @views, MonthWithMostViews = @monthwithmostviews, Director = @director, Producer = @producer WHERE Id = @id", connection);
                 command.Parameters.AddWithValue("id", movie.Id);
                 command.Parameters.AddWithValue("title", movie.Title);
                 command.Parameters.AddWithValue("genre", movie.Genre);

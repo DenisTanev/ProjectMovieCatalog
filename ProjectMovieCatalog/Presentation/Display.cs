@@ -131,6 +131,7 @@ namespace ProjectMovieCatalog.Presentation
                 movie.Views = int.Parse(Console.ReadLine());
                 Console.WriteLine("Enter the month in which the movie was viewed the most");
                 movie.MonthWithMostViews = Console.ReadLine();
+                movieBusiness.Update(movie);
             }
             else
             {
